@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["QK_K"],"enum":["QuantType"],"fn":["dequantize_q4_0","dequantize_q8_0","f16_to_f32","f32_to_f16","quantize_q8_0_block","vec_dot_q4_0","vec_dot_q8_0"],"struct":["QuantizedLinearModel"]};

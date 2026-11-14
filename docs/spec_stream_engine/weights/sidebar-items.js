@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"constant":["GGUF_MAGIC"],"enum":["GgufValue"],"struct":["GgufMetadata","GgufTensorInfo","LinearProjectionModel","SafeTensorEntry","SafeTensorsMetadata"]};

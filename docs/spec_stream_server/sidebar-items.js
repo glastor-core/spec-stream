@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["create_router","create_router_with_config"],"mod":["config","handlers","types"]};

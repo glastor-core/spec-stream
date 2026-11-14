@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["SyntheticModel"],"trait":["ModelEngine"]};

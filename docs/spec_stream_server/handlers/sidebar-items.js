@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["chat_completions_handler","health_handler","index_handler","metrics_handler"],"struct":["AppState"]};
