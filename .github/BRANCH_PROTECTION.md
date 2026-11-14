@@ -32,17 +32,20 @@ Este documento define la política obligatoria de protección para la rama princ
 
 El archivo de configuración de Ruleset oficial se encuentra versionado en [`.github/rulesets/main-protection.json`](rulesets/main-protection.json).
 
-Para aplicar esta protección inmediatamente usando GitHub CLI autenticado con permisos de admin:
+### En PowerShell (Windows):
+```powershell
+gh api --method POST repos/glastor-core/spec-stream/rulesets --input .github/rulesets/main-protection.json
+```
 
+### En Bash (Linux / macOS):
 ```bash
-gh api --method POST /repos/glastor-core/spec-stream/rulesets \
+gh api --method POST repos/glastor-core/spec-stream/rulesets \
   --input .github/rulesets/main-protection.json
 ```
 
-O para consultar los rulesets activos:
-
+Para verificar los rulesets activos en el repositorio:
 ```bash
-gh api /repos/glastor-core/spec-stream/rulesets
+gh api repos/glastor-core/spec-stream/rulesets
 ```
 
 ---

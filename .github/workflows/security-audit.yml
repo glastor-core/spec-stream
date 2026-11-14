@@ -40,8 +40,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Install cargo-deny
+        uses: taiki-e/install-action@cargo-deny
+
       - name: Run Cargo Deny Checks
-        uses: EmbarkStudios/cargo-deny-action@v2
-        with:
-          command: check
-          arguments: licenses bans sources
+        run: cargo deny check licenses bans sources
