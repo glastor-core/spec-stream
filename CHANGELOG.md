@@ -87,6 +87,19 @@ Este proyecto se adhiere a:
 - **Demostración Interactiva (`examples/speculative_pipeline.rs`)**: Ejemplo ejecutable completo demostrando el ciclo de ráfaga y la adaptación de $K$.
 - **Micro-benchmarks Criterion (`benches/verification_bench.rs`)**: Pruebas de rendimiento para verificar latencias de microsegundos en release.
 
+#### Infraestructura DevOps, CI/CD, Seguridad y Contenedores
+- **Flujo de Despliegue en GitHub Pages (`.github/workflows/pages.yml`)**: Despliegue automático de la landing page interactiva (`index.html`) y documentación generada de la API en Rust (`cargo doc`) en GitHub Pages.
+- **Empaquetado y Publicación Multi-Arquitectura en GHCR (`Dockerfile`, `.github/workflows/docker.yml`)**:
+  - `Dockerfile` multi-etapa endurecido con usuario no-privilegiado `specstream` (UID 10001) y verificación de salud (`HEALTHCHECK`).
+  - GitHub Actions con Docker Buildx y QEMU para compilar y publicar imágenes para arquitecturas `linux/amd64` y `linux/arm64` en GitHub Container Registry (`ghcr.io/glastor-core/spec-stream:latest`).
+- **Auditoría Continua de Seguridad y Cadena de Suministro (`.github/workflows/security-audit.yml`)**:
+  - Escaneo semanal programado (cron lunes 00:00 UTC) y en cambios de dependencias.
+  - Verificación exhaustiva con `cargo-audit` (base de datos RustSec) y `cargo-deny` (licencias SPDX, crates prohibidas y vulnerabilidades conocidas).
+- **Seguimiento Continuo de Benchmarks y Detección de Regresiones (`.github/workflows/bench.yml`)**: Ejecución automatizada de microbenchmarks y tracking histórico con alertas de regresión de latencia.
+- **Reporte y Análisis de Cobertura de Código (`.github/workflows/coverage.yml`)**: Generación de reportes LCOV con `cargo-llvm-cov` para auditoría de pruebas unitarias y de integración.
+- **Verificación de Versión Mínima Soportada de Rust (`.github/workflows/msrv.yml`)**: Validación continua de compatibilidad de todo el workspace con Rust 1.75.0 (MSRV).
+- **Clasificación y Etiquetado Automático de Pull Requests (`.github/workflows/pr-labeler.yml`, `.github/labeler.yml`)**: Triage inteligente aplicando etiquetas automáticas (`core`, `cache`, `engine`, `server`, `ui`, `ci`, `docs`, `security`, `dependencies`).
+
 ---
 
 © 2026 Andrés Antonio Cardoso — GLASTOR-DEV / GLASTOR® Core Organization.

@@ -1,0 +1,23 @@
+name: 🏷️ Automated PR Component Labeler
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  triage:
+    name: Label Pull Request by Component
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply Labels
+        uses: actions/labeler@v5
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          sync-labels: true

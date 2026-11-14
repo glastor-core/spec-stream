@@ -1,10 +1,13 @@
 # `spec-stream` 🚀
 
 [![CI](https://github.com/glastor-core/spec-stream/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/glastor-core/spec-stream/actions/workflows/ci.yml)
+[![Security Audit](https://github.com/glastor-core/spec-stream/actions/workflows/security-audit.yml/badge.svg?branch=main)](https://github.com/glastor-core/spec-stream/actions/workflows/security-audit.yml)
+[![Pages Docs](https://img.shields.io/badge/showcase-GitHub%20Pages-2ea44f.svg)](https://glastor-core.github.io/spec-stream/)
+[![Docker](https://img.shields.io/badge/docker-GHCR-2496ED.svg?logo=docker&logoColor=white)](https://github.com/glastor-core/spec-stream/pkgs/container/spec-stream)
 [![Crates.io](https://img.shields.io/crates/v/spec-stream.svg)](https://crates.io/crates/spec-stream)
 [![Documentation](https://docs.rs/spec-stream/badge.svg)](https://docs.rs/spec-stream)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](https://www.rust-lang.org)
+[![Rust MSRV](https://img.shields.io/badge/rust-1.75%2B%20(MSRV)-orange.svg)](https://www.rust-lang.org)
 [![Protected Branch](https://img.shields.io/badge/branch-main%20%5Bprotected%5D-success.svg)](.github/BRANCH_PROTECTION.md)
 
 > **High-Performance, Model-Agnostic Speculative Decoding and Paged KV-Cache Engine in pure Rust.**
@@ -96,6 +99,22 @@ curl -X POST http://localhost:8080/v1/chat/completions \
     "top_k": 50,
     "stream": true
   }'
+```
+
+### 🐳 Running with Docker & GitHub Container Registry (GHCR)
+
+Deploy the multi-architecture (`linux/amd64`, `linux/arm64`), non-root hardened production image:
+
+```bash
+# Pull official image from GHCR
+docker pull ghcr.io/glastor-core/spec-stream:latest
+
+# Run container in background with port mapping and custom configuration
+docker run -d \
+  --name spec-stream-server \
+  -p 8080:8080 \
+  -v $(pwd)/spec-stream.toml:/app/spec-stream.toml:ro \
+  ghcr.io/glastor-core/spec-stream:latest
 ```
 
 ---

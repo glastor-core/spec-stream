@@ -1,0 +1,58 @@
+name: 🌐 Deploy GitHub Pages (Showcase & Docs)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    name: Build Showcase and API Docs
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Stable Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo Dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build Rust API Documentation
+        run: cargo doc --workspace --no-deps
+
+      - name: Prepare Deployment Directory
+        run: |
+          mkdir -p _site/docs
+          # Main showcase landing page
+          cp index.html _site/index.html
+          # Rust API reference docs
+          cp -r target/doc/* _site/docs/
+          # Redirect /docs index if needed
+          echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=spec_stream/index.html"></head></html>' > _site/docs/index.html
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

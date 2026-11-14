@@ -1,0 +1,13 @@
+target/
+.git/
+.github/
+.vscode/
+.idea/
+brain/
+scratch/
+*.md
+!README.md
+!LICENSE-*
+*.tmp
+*.log
+index.html
