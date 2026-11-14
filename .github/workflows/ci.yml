@@ -60,8 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: EmbarkStudios/cargo-deny-action@v2
-        with:
-          command: check
-          arguments: licenses bans sources
+      - uses: taiki-e/install-action@cargo-deny
+      - name: Run Cargo Deny Checks
+        run: cargo deny check licenses bans sources
 
