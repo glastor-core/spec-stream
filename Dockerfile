@@ -5,7 +5,7 @@
 # ==============================================================================
 
 # Stage 1: Build Workspace
-FROM rust:1.82-bookworm AS builder
+FROM rust:1.85-bookworm AS builder
 
 WORKDIR /usr/src/spec-stream
 
