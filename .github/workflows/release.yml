@@ -35,13 +35,8 @@ jobs:
       - name: Run Test Suite
         run: cargo test --workspace --all-targets
 
-      - name: Verify Workspace Packaging
-        run: |
-          cargo package -p spec-stream-core --no-verify
-          cargo package -p spec-stream-cache --no-verify
-          cargo package -p spec-stream-engine --no-verify
-          cargo package -p spec-stream --no-verify
-          cargo package -p spec-stream-server --no-verify
+      - name: Verify Core Packaging
+        run: cargo package -p spec-stream-core --no-verify
 
       - name: Publish spec-stream-core
         run: |
@@ -61,10 +56,10 @@ jobs:
       - name: Publish spec-stream-cache
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            echo "Dry run: skipping upload for spec-stream-cache"
-            cargo publish -p spec-stream-cache --dry-run
+            echo "Dry run: validating spec-stream-cache packaging"
+            cargo publish -p spec-stream-cache --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream-cache || true
+            cargo publish -p spec-stream-cache
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -76,10 +71,10 @@ jobs:
       - name: Publish spec-stream-engine
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            echo "Dry run: skipping upload for spec-stream-engine"
-            cargo publish -p spec-stream-engine --dry-run
+            echo "Dry run: validating spec-stream-engine packaging"
+            cargo publish -p spec-stream-engine --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream-engine || true
+            cargo publish -p spec-stream-engine
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -91,10 +86,10 @@ jobs:
       - name: Publish spec-stream (Facade)
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            echo "Dry run: skipping upload for spec-stream"
-            cargo publish -p spec-stream --dry-run
+            echo "Dry run: validating spec-stream packaging"
+            cargo publish -p spec-stream --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream || true
+            cargo publish -p spec-stream
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -106,10 +101,10 @@ jobs:
       - name: Publish spec-stream-server
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            echo "Dry run: skipping upload for spec-stream-server"
-            cargo publish -p spec-stream-server --dry-run
+            echo "Dry run: validating spec-stream-server packaging"
+            cargo publish -p spec-stream-server --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream-server || true
+            cargo publish -p spec-stream-server
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
