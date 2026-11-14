@@ -1,0 +1,32 @@
+[package]
+name = "spec-stream-server"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "High-performance OpenAI-compatible HTTP inference server with Server-Sent Events (SSE) streaming for spec-stream"
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+spec-stream = { path = "../spec-stream" }
+spec-stream-core = { path = "../spec-stream-core" }
+spec-stream-cache = { path = "../spec-stream-cache" }
+spec-stream-engine = { path = "../spec-stream-engine" }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+thiserror = { workspace = true }
+axum = "0.7"
+async-stream = "0.3"
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+
+[features]
+default = []

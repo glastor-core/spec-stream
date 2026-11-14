@@ -1,0 +1,25 @@
+# ==============================================================================
+# spec-stream Configuration File
+# Pure Rust Speculative Decoding & Paged KV-Cache Engine
+# https://github.com/glastor-core/spec-stream
+# Contact: ventas@glastor.es | Maintainer: glastor.info@gmail.com
+# ==============================================================================
+
+[server]
+host = "0.0.0.0"
+port = 8080
+
+[cache]
+# Total physical blocks pre-allocated in memory pool
+cache_total_blocks = 512
+# Number of tokens stored per physical block (16 tokens * hidden_dim)
+cache_block_size = 16
+
+[speculative]
+# Speculative drafting burst window depth (K)
+k_draft_tokens = 4
+# Enable dynamic EMA feedback adaptation of K
+adaptive_k = true
+# Maximum concurrent sequences in continuous batching iteration
+max_batch_size = 16
+

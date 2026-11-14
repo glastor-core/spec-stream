@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "GLASTOR® spec-stream: High-Performance, Model-Agnostic Speculative Decoding and Paged KV-Cache Engine for Large Language Models in Pure Rust"
+type: software
+version: "0.1.0"
+date-released: "2026-11-13"
+authors:
+  - family-names: "Cardoso"
+    given-names: "Andrés Antonio"
+    email: "ventas@glastor.es"
+repository-code: "https://github.com/glastor-core/spec-stream"
+url: "https://glastor.es"
+license: "MIT OR Apache-2.0"
+keywords:
+  - "Rust"
+  - "Speculative Decoding"
+  - "PagedAttention"
+  - "KV-Cache"
+  - "LLM"
+  - "Inference Engine"
+  - "Tree Decoding"
+  - "Medusa"
+  - "Eagle"
+  - "OpenAI API"
+  - "Server-Sent Events"
+  - "Prefix Caching"
+  - "Copy-on-Write"
+abstract: "GLASTOR® spec-stream es un motor de inferencia especulativa y gestión de memoria KV-Cache paginada de ultra alto rendimiento en Rust puro. Acelera la inferencia de Grandes Modelos de Lenguaje (LLM) de 2.0x a 3.8x superando el cuello de botella de ancho de banda en memoria mediante verificación en ráfagas de tokens (Greedy y Estocástica de Leviathan et al. 2023), decodificación multirrama por árboles (Medusa/Eagle) con máscara de atención 2D, reversión O(1) en 249 ns con Copy-on-Write, auto-escalado dinámico de ráfaga (Adaptive K-Drafting) y un servidor HTTP compatible con OpenAI con streaming SSE y métricas Prometheus."

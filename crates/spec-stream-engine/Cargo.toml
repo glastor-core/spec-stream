@@ -1,0 +1,24 @@
+[package]
+name = "spec-stream-engine"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Speculative decoding async execution engine, pipeline scheduler, and token streaming orchestrator"
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+spec-stream-core = { path = "../spec-stream-core", features = ["serde"] }
+spec-stream-cache = { path = "../spec-stream-cache" }
+rand = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+futures-core = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+

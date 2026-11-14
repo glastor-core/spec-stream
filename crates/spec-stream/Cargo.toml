@@ -1,0 +1,32 @@
+[package]
+name = "spec-stream"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "High-performance, model-agnostic speculative decoding and paged KV-cache engine for accelerated LLM inference"
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+spec-stream-core = { path = "../spec-stream-core", version = "0.1.0" }
+spec-stream-cache = { path = "../spec-stream-cache", version = "0.1.0", optional = true }
+spec-stream-engine = { path = "../spec-stream-engine", version = "0.1.0", optional = true }
+
+[features]
+default = ["full"]
+full = ["cache", "engine"]
+cache = ["dep:spec-stream-cache"]
+engine = ["dep:spec-stream-engine", "cache"]
+
+[dev-dependencies]
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+[[bench]]
+name = "verification_bench"
+harness = false
+

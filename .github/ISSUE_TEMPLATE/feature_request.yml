@@ -1,0 +1,51 @@
+name: "✨ Solicitud de Funcionalidad"
+description: "Propón una nueva extensión SIMD, optimización o integración para GLASTOR® hyper64"
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ¡Gracias por tu iniciativa para hacer de **GLASTOR® hyper64** un motor de Base64 aún más rápido, seguro y ergonómico!
+        Priorizamos propuestas fundamentadas en especificaciones de RFC 4648, optimizaciones vectoriales demostradas con Criterion y mejoras de cero asignaciones de memoria.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Área o Módulo Principal"
+      description: "Selecciona el área técnica donde encaja esta propuesta."
+      options:
+        - "Extensión SIMD (AVX-512BW/VAES, RISC-V Vector, LoongArch)"
+        - "Optimizaciones de Memoria y Búfers In-Place"
+        - "Nuevas Variantes de Alfabeto Base64 / Encoding"
+        - "Adaptadores de Streaming e I/O (Tokio, async-std, futures)"
+        - "Integraciones de Serialización (Serde, postcard, rkyv)"
+        - "Criptografía en Tiempo Constante"
+        - "Auditorías de Rendimiento y Benchmarks"
+        - "Otro"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problema o Necesidad"
+      description: "¿Qué limitación o cuello de botella actual busca resolver esta propuesta?"
+      placeholder: "Al procesar archivos de 10 GB en servidores con procesadores AMD Zen 4 o Intel Xeon con AVX-512..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: "Propuesta de Solución"
+      description: "¿Cómo debería funcionar en hyper64? Incluye API de Rust propuesta o algoritmo SIMD sugerido."
+      placeholder: "Proponemos añadir soporte para AVX-512BW procesando bloques de 64 bytes por instrucción..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: "Contexto Adicional / Benchmarks"
+      description: "Enlaces a documentación técnica, whitepapers de hardware o micro-benchmarks preliminares."

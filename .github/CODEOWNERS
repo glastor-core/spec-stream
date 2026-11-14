@@ -1,0 +1,34 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# GLASTOR® SPEC-STREAM - CODEOWNERS CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════
+# Propósito: Definir la propiedad del código y protocolos de revisión.
+# Referencia: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# ═══════════════════════════════════════════════════════════════════════════
+
+# [ GLOBAL MAINTAINERS ]
+* @glastor-core @glastor-dev
+
+# [ INFRAESTRUCTURA DE CI/CD & WORKFLOWS ]
+.github/ @glastor-core @glastor-dev
+Cargo.toml @glastor-core @glastor-dev
+Cargo.lock @glastor-core @glastor-dev
+
+# [ CRATES DEL WORKSPACE ]
+crates/spec-stream-core/ @glastor-core @glastor-dev
+crates/spec-stream-cache/ @glastor-core @glastor-dev
+crates/spec-stream-engine/ @glastor-core @glastor-dev
+crates/spec-stream-server/ @glastor-core @glastor-dev
+crates/spec-stream/ @glastor-core @glastor-dev
+
+# [ EJEMPLOS, BENCHMARKS & SHOWCASE ]
+examples/ @glastor-core @glastor-dev
+benches/ @glastor-core @glastor-dev
+index.html @glastor-core @glastor-dev
+
+# [ GOBERNANZA & COMPLIANCE ]
+README.md @glastor-core @glastor-dev
+CHANGELOG.md @glastor-core @glastor-dev
+CONTRIBUTING.md @glastor-core @glastor-dev
+CONTRIBUTORS.md @glastor-core @glastor-dev
+CITATION.cff @glastor-core @glastor-dev
+LICENSE @glastor-core @glastor-dev

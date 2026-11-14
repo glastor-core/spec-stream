@@ -1,0 +1,23 @@
+[package]
+name = "spec-stream-core"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core algorithms, data structures, and verification primitives for speculative decoding in LLM inference"
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+rand = { workspace = true }
+serde = { workspace = true, optional = true }
+smallvec = { workspace = true, features = ["serde"] }
+
+[features]
+default = ["std"]
+std = []
+serde = ["dep:serde"]
+
