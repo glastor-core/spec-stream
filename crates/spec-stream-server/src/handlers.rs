@@ -32,7 +32,7 @@ pub async fn health_handler(State(state): State<AppState>) -> Json<HealthRespons
 }
 
 pub async fn index_handler() -> impl IntoResponse {
-    axum::response::Html(include_str!("../../../index.html"))
+    axum::response::Html(include_str!("../index.html"))
 }
 
 pub async fn metrics_handler(State(state): State<AppState>) -> impl IntoResponse {
