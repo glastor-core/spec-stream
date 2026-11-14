@@ -7,7 +7,7 @@
 [![Crates.io](https://img.shields.io/crates/v/spec-stream.svg)](https://crates.io/crates/spec-stream)
 [![Documentation](https://docs.rs/spec-stream/badge.svg)](https://docs.rs/spec-stream)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
-[![Rust MSRV](https://img.shields.io/badge/rust-1.75%2B%20(MSRV)-orange.svg)](https://www.rust-lang.org)
+[![Rust MSRV](https://img.shields.io/badge/rust-1.85%2B%20(MSRV)-orange.svg)](.github/workflows/msrv.yml)
 [![Protected Branch](https://img.shields.io/badge/branch-main%20%5Bprotected%5D-success.svg)](.github/BRANCH_PROTECTION.md)
 
 > **High-Performance, Model-Agnostic Speculative Decoding and Paged KV-Cache Engine in pure Rust.**

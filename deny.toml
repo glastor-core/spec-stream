@@ -1,6 +1,7 @@
 # ==============================================================================
 # cargo-deny Configuration — GLASTOR® spec-stream
 # Application Security (AppSec) & Software Supply Chain Audit
+# Conforms to cargo-deny >= 0.16.0
 # ==============================================================================
 
 [graph]
@@ -11,14 +12,9 @@ targets = [
 ]
 
 [advisories]
-vulnerability = "deny"
-unmaintained = "warn"
-unsound = "deny"
-yanked = "deny"
 ignore = []
 
 [licenses]
-unlicensed = "deny"
 allow = [
     "MIT",
     "Apache-2.0",
@@ -37,6 +33,7 @@ confidence-threshold = 0.8
 [bans]
 multiple-versions = "warn"
 wildcards = "deny"
+allow-wildcard-paths = true
 highlight = "all"
 deny = []
 

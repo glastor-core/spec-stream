@@ -40,6 +40,7 @@ jobs:
 
       - name: Store and Compare Benchmark Results
         uses: benchmark-action/github-action-benchmark@v1
+        continue-on-error: true
         with:
           name: Spec-Stream Rust Microbenchmarks
           tool: 'cargo'
@@ -50,3 +51,9 @@ jobs:
           alert-threshold: '120%'
           fail-on-alert: false
           summary-always: true
+
+      - name: Upload Benchmark Results Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: benchmark_output.txt

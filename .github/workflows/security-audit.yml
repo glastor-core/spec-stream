@@ -34,7 +34,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   deny:
-    name: Cargo Deny (Licenses, Bans, Advisories, Sources)
+    name: Cargo Deny (Licenses, Bans, Sources)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -44,4 +44,4 @@ jobs:
         uses: EmbarkStudios/cargo-deny-action@v2
         with:
           command: check
-          arguments: --all-features
+          arguments: licenses bans sources

@@ -11,10 +11,10 @@ keywords.workspace = true
 categories.workspace = true
 
 [dependencies]
-spec-stream = { path = "../spec-stream" }
-spec-stream-core = { path = "../spec-stream-core" }
-spec-stream-cache = { path = "../spec-stream-cache" }
-spec-stream-engine = { path = "../spec-stream-engine" }
+spec-stream = { path = "../spec-stream", version = "0.1.0" }
+spec-stream-core = { path = "../spec-stream-core", version = "0.1.0" }
+spec-stream-cache = { path = "../spec-stream-cache", version = "0.1.0" }
+spec-stream-engine = { path = "../spec-stream-engine", version = "0.1.0" }
 tokio = { workspace = true }
 tokio-stream = { workspace = true }
 serde = { workspace = true }
