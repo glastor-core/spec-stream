@@ -13,6 +13,7 @@
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 [![Rust MSRV](https://img.shields.io/badge/rust-1.85%2B%20(MSRV)-orange.svg)](.github/workflows/msrv.yml)
 [![Protected Branch](https://img.shields.io/badge/branch-main%20%5Bprotected%5D-success.svg)](.github/BRANCH_PROTECTION.md)
+[![Follow glastor-core](https://img.shields.io/github/followers/glastor-core?label=Follow%20%40glastor-core&style=social)](https://github.com/glastor-core)
 
 > **High-Performance, Model-Agnostic Speculative Decoding and Paged KV-Cache Engine in pure Rust.**
 > Accelerates Large Language Model (LLM) inference by **2.0x–3.8x** through speculative token burst verification, multi-path tree decoding, and **$O(1)$ rollback paged memory allocation**.
