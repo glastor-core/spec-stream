@@ -1,34 +1,40 @@
 # ═══════════════════════════════════════════════════════════════════════════
 # GLASTOR® SPEC-STREAM - CODEOWNERS CONFIGURATION
 # ═══════════════════════════════════════════════════════════════════════════
-# Propósito: Definir la propiedad del código y protocolos de revisión.
-# Referencia: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# Propósito: Definir la propiedad del código y protocolos de revisión automatizada por equipos.
+# Equipos: @glastor-core/core-maintainers y @glastor-core/security-team
 # ═══════════════════════════════════════════════════════════════════════════
 
-# [ GLOBAL MAINTAINERS ]
-* @glastor-core @glastor-dev
+# [ PROPIEDAD GLOBAL POR DEFECTO ]
+* @glastor-core/core-maintainers @glastor-dev
 
-# [ INFRAESTRUCTURA DE CI/CD & WORKFLOWS ]
-.github/ @glastor-core @glastor-dev
-Cargo.toml @glastor-core @glastor-dev
-Cargo.lock @glastor-core @glastor-dev
+# [ INFRAESTRUCTURA DE SEGURIDAD & SUPPLY CHAIN ]
+deny.toml @glastor-core/security-team @glastor-dev
+.github/workflows/security-audit.yml @glastor-core/security-team @glastor-dev
+SECURITY.md @glastor-core/security-team @glastor-dev
+
+# [ INFRAESTRUCTURA DE CI/CD & CONTENEDORES ]
+.github/workflows/ @glastor-core/core-maintainers @glastor-core/security-team @glastor-dev
+Dockerfile @glastor-core/core-maintainers @glastor-core/security-team @glastor-dev
+Cargo.toml @glastor-core/core-maintainers @glastor-dev
+Cargo.lock @glastor-core/core-maintainers @glastor-core/security-team @glastor-dev
 
 # [ CRATES DEL WORKSPACE ]
-crates/spec-stream-core/ @glastor-core @glastor-dev
-crates/spec-stream-cache/ @glastor-core @glastor-dev
-crates/spec-stream-engine/ @glastor-core @glastor-dev
-crates/spec-stream-server/ @glastor-core @glastor-dev
-crates/spec-stream/ @glastor-core @glastor-dev
+crates/spec-stream-core/ @glastor-core/core-maintainers @glastor-dev
+crates/spec-stream-cache/ @glastor-core/core-maintainers @glastor-dev
+crates/spec-stream-engine/ @glastor-core/core-maintainers @glastor-dev
+crates/spec-stream-server/ @glastor-core/core-maintainers @glastor-dev
+crates/spec-stream/ @glastor-core/core-maintainers @glastor-dev
 
 # [ EJEMPLOS, BENCHMARKS & SHOWCASE ]
-examples/ @glastor-core @glastor-dev
-benches/ @glastor-core @glastor-dev
-index.html @glastor-core @glastor-dev
+examples/ @glastor-core/core-maintainers @glastor-dev
+benches/ @glastor-core/core-maintainers @glastor-dev
+index.html @glastor-core/core-maintainers @glastor-dev
 
 # [ GOBERNANZA & COMPLIANCE ]
-README.md @glastor-core @glastor-dev
-CHANGELOG.md @glastor-core @glastor-dev
-CONTRIBUTING.md @glastor-core @glastor-dev
-CONTRIBUTORS.md @glastor-core @glastor-dev
-CITATION.cff @glastor-core @glastor-dev
-LICENSE @glastor-core @glastor-dev
+README.md @glastor-core/core-maintainers @glastor-dev
+CHANGELOG.md @glastor-core/core-maintainers @glastor-dev
+CONTRIBUTING.md @glastor-core/core-maintainers @glastor-dev
+CONTRIBUTORS.md @glastor-core/core-maintainers @glastor-dev
+CITATION.cff @glastor-core/core-maintainers @glastor-dev
+LICENSE @glastor-core/core-maintainers @glastor-dev
