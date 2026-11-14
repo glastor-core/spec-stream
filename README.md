@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://res.cloudinary.com/dzualplqi/image/upload/v1794679680/Especificaciones_en_flujo_ne%C3%B3n_oemgzg.png" alt="spec-stream Banner" width="100%">
+</p>
+
 # `spec-stream` 🚀
 
 [![CI](https://github.com/glastor-core/spec-stream/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/glastor-core/spec-stream/actions/workflows/ci.yml)
