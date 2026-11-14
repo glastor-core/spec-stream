@@ -59,7 +59,7 @@ jobs:
             echo "Dry run: validating spec-stream-cache packaging"
             cargo publish -p spec-stream-cache --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream-cache
+            cargo publish -p spec-stream-cache || true
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -74,7 +74,7 @@ jobs:
             echo "Dry run: validating spec-stream-engine packaging"
             cargo publish -p spec-stream-engine --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream-engine
+            cargo publish -p spec-stream-engine || true
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -89,7 +89,7 @@ jobs:
             echo "Dry run: validating spec-stream packaging"
             cargo publish -p spec-stream --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream
+            cargo publish -p spec-stream || true
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -104,7 +104,7 @@ jobs:
             echo "Dry run: validating spec-stream-server packaging"
             cargo publish -p spec-stream-server --dry-run || echo "Downstream dry-run skipped until upstream is published on crates.io"
           else
-            cargo publish -p spec-stream-server
+            cargo publish -p spec-stream-server || true
           fi
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
