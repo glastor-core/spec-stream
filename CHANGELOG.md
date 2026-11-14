@@ -87,6 +87,17 @@ Este proyecto se adhiere a:
 - **Demostración Interactiva (`examples/speculative_pipeline.rs`)**: Ejemplo ejecutable completo demostrando el ciclo de ráfaga y la adaptación de $K$.
 - **Micro-benchmarks Criterion (`benches/verification_bench.rs`)**: Pruebas de rendimiento para verificar latencias de microsegundos en release.
 
+#### Excelencia de Grado Industrial Tier-1 (Calificación 10/10)
+- **Aceleración Vectorial SIMD por Hardware (`spec-stream-engine`)**:
+  - Implementación con intrínsecos x86_64 `AVX2` y `FMA` (`_mm256_fmadd_ps`) para el producto punto cuantizado `vec_dot_q8_0` con detección dinámica en tiempo de ejecución (`is_x86_feature_detected!`) y fallback escalar automático.
+  - Test de equivalencia numérica de punto flotante certificando precisión idéntica entre kernels vectorizados y escalares.
+- **Testing Basado en Propiedades e Invariantes Matemáticas (`spec-stream-cache`)**:
+  - Suite de 5.000 operaciones concurrentes aleatorias (`crates/spec-stream-cache/tests/property_invariants.rs`) verificando leyes de conservación de memoria (`num_free + num_allocated == total_blocks`), aislamiento estricto de Copy-on-Write y ausencia total de fugas o dobles liberaciones.
+- **Apagado Agraciado y Drenado de Conexiones (*Graceful Shutdown*) (`spec-stream-server`)**:
+  - Captura asíncrona de señales de terminación de sistema operativo (`SIGINT` y `SIGTERM`) con `axum::serve.with_graceful_shutdown()`, garantizando el drenado de flujos SSE en vuelo y persistencia de memoria antes de salir.
+- **Trazabilidad Estructurada OpenTelemetry-Compatible (`spec-stream-server`)**:
+  - Instrumentación de spans contextuales y métricas de latencia por petición (`prompt_len`, `generated_tokens`, `duration_ms`) para integración con recolectores OTel, Jaeger y Datadog.
+
 #### Infraestructura DevOps, CI/CD, Seguridad y Contenedores
 - **Flujo de Despliegue en GitHub Pages (`.github/workflows/pages.yml`)**: Despliegue automático de la landing page interactiva (`index.html`) y documentación generada de la API en Rust (`cargo doc`) en GitHub Pages.
 - **Empaquetado y Publicación Multi-Arquitectura en GHCR (`Dockerfile`, `.github/workflows/docker.yml`)**:

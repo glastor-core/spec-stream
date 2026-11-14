@@ -139,6 +139,15 @@ pub async fn chat_completions_handler(
     let request_id = format!("chatcmpl-{seq_id}");
     let model_name = payload.model.clone();
     let state_tokens = state.total_tokens_generated.clone();
+    let req_start = std::time::Instant::now();
+
+    tracing::info!(
+        seq_id = seq_id,
+        model = %model_name,
+        streaming = is_streaming,
+        prompt_len = prompt_len,
+        "Initiating speculative inference request"
+    );
 
     if is_streaming {
         let tokenizer_stream = tokenizer.clone();
@@ -188,6 +197,13 @@ pub async fn chat_completions_handler(
             .total_tokens_generated
             .fetch_add(total_gen as u64, Ordering::Relaxed);
         let content = tokenizer.decode(&tokens_out);
+
+        tracing::info!(
+            seq_id = seq_id,
+            generated_tokens = total_gen,
+            duration_ms = req_start.elapsed().as_millis(),
+            "Completed chat completion request"
+        );
 
         let response = ChatCompletionResponse {
             id: request_id,

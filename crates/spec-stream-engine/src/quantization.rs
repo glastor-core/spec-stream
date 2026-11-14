@@ -135,6 +135,19 @@ pub fn dequantize_q4_0(src: &[u8], dst: &mut [f32]) {
 
 /// Computes the dot product between a Q8_0 quantized weight row and an FP32 vector directly without full dequantization.
 pub fn vec_dot_q8_0(w_bytes: &[u8], x: &[f32]) -> f32 {
+    #[cfg(target_arch = "x86_64")]
+    {
+        if is_x86_feature_detected!("avx2") && is_x86_feature_detected!("fma") {
+            // SAFETY: Validated hardware feature presence via CPUID
+            return unsafe { vec_dot_q8_0_avx2(w_bytes, x) };
+        }
+    }
+
+    vec_dot_q8_0_scalar(w_bytes, x)
+}
+
+/// Fallback scalar implementation of Q8_0 dot product.
+pub fn vec_dot_q8_0_scalar(w_bytes: &[u8], x: &[f32]) -> f32 {
     let num_blocks = x.len() / QK_K;
     let mut sum = 0.0f32;
 
@@ -152,6 +165,52 @@ pub fn vec_dot_q8_0(w_bytes: &[u8], x: &[f32]) -> f32 {
             block_acc += q as f32 * x[x_offset + i];
         }
         sum += block_acc * scale;
+    }
+
+    sum
+}
+
+#[cfg(target_arch = "x86_64")]
+#[target_feature(enable = "avx2,fma")]
+unsafe fn vec_dot_q8_0_avx2(w_bytes: &[u8], x: &[f32]) -> f32 {
+    use std::arch::x86_64::*;
+
+    let num_blocks = x.len() / QK_K;
+    let mut sum = 0.0f32;
+
+    for b in 0..num_blocks {
+        let src_offset = b * 34;
+        let scale = f16_to_f32(u16::from_le_bytes([
+            w_bytes[src_offset],
+            w_bytes[src_offset + 1],
+        ]));
+        let x_ptr = x.as_ptr().add(b * QK_K);
+        let q_ptr = w_bytes.as_ptr().add(src_offset + 2);
+
+        let mut acc = _mm256_setzero_ps();
+
+        for i in 0..4 {
+            let i8_slice = std::slice::from_raw_parts(q_ptr.add(i * 8), 8);
+            let mut i64_buf = [0u8; 8];
+            i64_buf.copy_from_slice(i8_slice);
+            let q_i64 = i64::from_ne_bytes(i64_buf);
+            let q128 = _mm_cvtsi64_si128(q_i64);
+
+            let q256_i32 = _mm256_cvtepi8_epi32(q128);
+            let q256_f32 = _mm256_cvtepi32_ps(q256_i32);
+            let x256_f32 = _mm256_loadu_ps(x_ptr.add(i * 8));
+
+            acc = _mm256_fmadd_ps(q256_f32, x256_f32, acc);
+        }
+
+        let h128 = _mm_add_ps(_mm256_castps256_ps128(acc), _mm256_extractf128_ps(acc, 1));
+        let shuf = _mm_movehdup_ps(h128);
+        let sums = _mm_add_ps(h128, shuf);
+        let shuf2 = _mm_movehl_ps(sums, sums);
+        let total = _mm_add_ss(sums, shuf2);
+        let block_sum = _mm_cvtss_f32(total);
+
+        sum += block_sum * scale;
     }
 
     sum
@@ -366,5 +425,27 @@ mod tests {
 
         let logits = model.project_token(2);
         assert_eq!(logits.vocab_size(), 16);
+    }
+
+    #[test]
+    fn test_vec_dot_q8_0_simd_equivalence() {
+        let mut original = [0.0f32; 64];
+        let mut x = [0.0f32; 64];
+        for i in 0..64 {
+            original[i] = (i as f32 - 32.0) * 0.15;
+            x[i] = (i as f32 % 7.0) * 0.3;
+        }
+
+        let mut w_bytes = vec![0u8; 68]; // 2 blocks of 34 bytes
+        quantize_q8_0_block(&original[0..32], &mut w_bytes[0..34]);
+        quantize_q8_0_block(&original[32..64], &mut w_bytes[34..68]);
+
+        let scalar_res = vec_dot_q8_0_scalar(&w_bytes, &x);
+        let simd_res = vec_dot_q8_0(&w_bytes, &x);
+
+        assert!(
+            (scalar_res - simd_res).abs() < 1e-4,
+            "SIMD dot product ({simd_res}) must match scalar dot product ({scalar_res})"
+        );
     }
 }
