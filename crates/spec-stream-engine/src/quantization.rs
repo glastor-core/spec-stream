@@ -87,7 +87,11 @@ pub enum QuantType {
 pub fn dequantize_q8_0(src: &[u8], dst: &mut [f32]) {
     assert_eq!(dst.len() % QK_K, 0, "Destination must be multiple of 32");
     let num_blocks = dst.len() / QK_K;
-    assert_eq!(src.len(), num_blocks * 34, "Source length mismatch for Q8_0");
+    assert_eq!(
+        src.len(),
+        num_blocks * 34,
+        "Source length mismatch for Q8_0"
+    );
 
     for b in 0..num_blocks {
         let src_offset = b * 34;
@@ -106,7 +110,11 @@ pub fn dequantize_q8_0(src: &[u8], dst: &mut [f32]) {
 pub fn dequantize_q4_0(src: &[u8], dst: &mut [f32]) {
     assert_eq!(dst.len() % QK_K, 0, "Destination must be multiple of 32");
     let num_blocks = dst.len() / QK_K;
-    assert_eq!(src.len(), num_blocks * 18, "Source length mismatch for Q4_0");
+    assert_eq!(
+        src.len(),
+        num_blocks * 18,
+        "Source length mismatch for Q4_0"
+    );
 
     for b in 0..num_blocks {
         let src_offset = b * 18;
@@ -132,7 +140,10 @@ pub fn vec_dot_q8_0(w_bytes: &[u8], x: &[f32]) -> f32 {
 
     for b in 0..num_blocks {
         let src_offset = b * 34;
-        let scale = f16_to_f32(u16::from_le_bytes([w_bytes[src_offset], w_bytes[src_offset + 1]]));
+        let scale = f16_to_f32(u16::from_le_bytes([
+            w_bytes[src_offset],
+            w_bytes[src_offset + 1],
+        ]));
         let x_offset = b * QK_K;
 
         let mut block_acc = 0.0f32;
@@ -153,7 +164,10 @@ pub fn vec_dot_q4_0(w_bytes: &[u8], x: &[f32]) -> f32 {
 
     for b in 0..num_blocks {
         let src_offset = b * 18;
-        let scale = f16_to_f32(u16::from_le_bytes([w_bytes[src_offset], w_bytes[src_offset + 1]]));
+        let scale = f16_to_f32(u16::from_le_bytes([
+            w_bytes[src_offset],
+            w_bytes[src_offset + 1],
+        ]));
         let x_offset = b * QK_K;
 
         let mut block_acc = 0.0f32;
@@ -235,8 +249,10 @@ impl QuantizedLinearModel {
             let row_offset_bytes = row * bytes_per_row;
 
             for b in 0..num_blocks {
-                let src_slice = &weights[row_offset_f32 + b * QK_K..row_offset_f32 + (b + 1) * QK_K];
-                let dst_slice = &mut quantized_weights[row_offset_bytes + b * 34..row_offset_bytes + (b + 1) * 34];
+                let src_slice =
+                    &weights[row_offset_f32 + b * QK_K..row_offset_f32 + (b + 1) * QK_K];
+                let dst_slice = &mut quantized_weights
+                    [row_offset_bytes + b * 34..row_offset_bytes + (b + 1) * 34];
                 quantize_q8_0_block(src_slice, dst_slice);
             }
         }
@@ -341,11 +357,7 @@ mod tests {
         let embeddings: Vec<f32> = (0..size).map(|i| ((i + 5) as f32 % 10.0) * 0.1).collect();
 
         let model = QuantizedLinearModel::from_f32_weights(
-            "test-q8",
-            vocab_size,
-            hidden_dim,
-            &weights,
-            embeddings,
+            "test-q8", vocab_size, hidden_dim, &weights, embeddings,
         )
         .expect("Failed to build quantized model");
 

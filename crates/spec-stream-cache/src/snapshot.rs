@@ -38,8 +38,7 @@ impl PrefixCacheSnapshot {
 
     /// Deserializes a snapshot from a JSON string.
     pub fn from_json(json_str: &str) -> Result<Self, CacheError> {
-        serde_json::from_str(json_str)
-            .map_err(|e| CacheError::SerializationError(e.to_string()))
+        serde_json::from_str(json_str).map_err(|e| CacheError::SerializationError(e.to_string()))
     }
 }
 
@@ -140,11 +139,12 @@ mod tests {
         // Create a new fresh allocator and import the snapshot
         let mut new_allocator = BlockAllocator::new(10, block_size);
         let loaded_snapshot = PrefixCacheSnapshot::from_json(&json).unwrap();
-        let imported = new_allocator.import_prefix_snapshot(&loaded_snapshot).unwrap();
+        let imported = new_allocator
+            .import_prefix_snapshot(&loaded_snapshot)
+            .unwrap();
 
         assert_eq!(imported, 1);
         assert_eq!(new_allocator.num_prefix_entries(), 1);
         assert!(new_allocator.find_prefix(hash).is_some());
     }
 }
-

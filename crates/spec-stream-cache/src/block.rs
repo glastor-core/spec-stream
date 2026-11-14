@@ -51,4 +51,3 @@ impl PhysicalBlock {
         self.tokens.clear();
     }
 }
-

@@ -12,7 +12,9 @@ use axum::{
     routing::{get, post},
     Router,
 };
-use handlers::{chat_completions_handler, health_handler, index_handler, metrics_handler, AppState};
+use handlers::{
+    chat_completions_handler, health_handler, index_handler, metrics_handler, AppState,
+};
 use spec_stream::prelude::*;
 use std::sync::atomic::AtomicU64;
 use std::sync::Arc;
@@ -55,17 +57,14 @@ mod tests {
         let app = create_router();
 
         let response = app
-            .oneshot(
-                Request::builder()
-                    .uri("/")
-                    .body(Body::empty())
-                    .unwrap(),
-            )
+            .oneshot(Request::builder().uri("/").body(Body::empty()).unwrap())
             .await
             .unwrap();
 
         assert_eq!(response.status(), StatusCode::OK);
-        let body_bytes = axum::body::to_bytes(response.into_body(), usize::MAX).await.unwrap();
+        let body_bytes = axum::body::to_bytes(response.into_body(), usize::MAX)
+            .await
+            .unwrap();
         let body_str = String::from_utf8(body_bytes.to_vec()).unwrap();
         assert!(body_str.contains("spec-stream"));
         assert!(body_str.contains("Speculative Decoding"));
@@ -103,7 +102,9 @@ mod tests {
             .unwrap();
 
         assert_eq!(response.status(), StatusCode::OK);
-        let body_bytes = axum::body::to_bytes(response.into_body(), usize::MAX).await.unwrap();
+        let body_bytes = axum::body::to_bytes(response.into_body(), usize::MAX)
+            .await
+            .unwrap();
         let body_str = String::from_utf8(body_bytes.to_vec()).unwrap();
         assert!(body_str.contains("spec_stream_free_kv_blocks"));
         assert!(body_str.contains("spec_stream_requests_total"));

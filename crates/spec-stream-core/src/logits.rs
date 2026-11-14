@@ -65,7 +65,12 @@ impl Logits {
         }
 
         // Find the k-th largest value by sorting indexed pairs or partitioning
-        let mut sorted_vals: Vec<f32> = self.values.iter().copied().filter(|v| !v.is_nan()).collect();
+        let mut sorted_vals: Vec<f32> = self
+            .values
+            .iter()
+            .copied()
+            .filter(|v| !v.is_nan())
+            .collect();
         sorted_vals.sort_by(|a, b| b.partial_cmp(a).unwrap_or(std::cmp::Ordering::Equal));
 
         if let Some(&kth_val) = sorted_vals.get(k - 1) {
@@ -363,5 +368,3 @@ mod tests {
         assert_eq!(token, 1);
     }
 }
-
-

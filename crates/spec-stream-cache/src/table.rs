@@ -151,14 +151,17 @@ impl BlockTable {
 
         // Adjust the last block's token count if necessary
         if let Some(&last_block_id) = self.physical_blocks.last() {
-            let tokens_in_last = if valid_token_count % self.block_size == 0 && valid_token_count > 0 {
-                self.block_size
-            } else {
-                valid_token_count % self.block_size
-            };
+            let tokens_in_last =
+                if valid_token_count % self.block_size == 0 && valid_token_count > 0 {
+                    self.block_size
+                } else {
+                    valid_token_count % self.block_size
+                };
 
             // If last block was full and had registered prefix hash, but is now truncated:
-            if tokens_in_last < self.block_size && self.prefix_hashes.len() == self.physical_blocks.len() {
+            if tokens_in_last < self.block_size
+                && self.prefix_hashes.len() == self.physical_blocks.len()
+            {
                 self.prefix_hashes.pop();
             }
 
@@ -226,20 +229,36 @@ mod tests {
         let system_prompt = vec![101, 102, 103, 104]; // exactly 1 block
 
         // First sequence populates the block
-        table1.append_tokens(&system_prompt, &mut allocator).unwrap();
+        table1
+            .append_tokens(&system_prompt, &mut allocator)
+            .unwrap();
         assert_eq!(allocator.num_free_blocks(), 9);
         assert_eq!(allocator.num_prefix_entries(), 1);
 
         // Second sequence with identical prompt should HIT prefix cache and allocate ZERO new blocks!
-        table2.append_tokens(&system_prompt, &mut allocator).unwrap();
+        table2
+            .append_tokens(&system_prompt, &mut allocator)
+            .unwrap();
         assert_eq!(allocator.num_free_blocks(), 9); // Still 9 free blocks!
         assert_eq!(table1.physical_blocks[0], table2.physical_blocks[0]); // Shared physical block!
-        assert_eq!(allocator.get_block(table1.physical_blocks[0]).unwrap().ref_count, 2);
+        assert_eq!(
+            allocator
+                .get_block(table1.physical_blocks[0])
+                .unwrap()
+                .ref_count,
+            2
+        );
 
         // Freeing table1 leaves block alive for table2
         table1.free_all(&mut allocator).unwrap();
         assert_eq!(allocator.num_free_blocks(), 9);
-        assert_eq!(allocator.get_block(table2.physical_blocks[0]).unwrap().ref_count, 1);
+        assert_eq!(
+            allocator
+                .get_block(table2.physical_blocks[0])
+                .unwrap()
+                .ref_count,
+            1
+        );
 
         table2.free_all(&mut allocator).unwrap();
         assert_eq!(allocator.num_free_blocks(), 10);
@@ -280,5 +299,3 @@ mod tests {
         assert_eq!(block2.tokens, vec![1, 2, 3]);
     }
 }
-
-

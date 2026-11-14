@@ -19,6 +19,7 @@ pub use logits::{Logits, TokenId};
 pub use metrics::SpeculativeMetrics;
 pub use tokenizer::{ByteLevelTokenizer, Tokenizer};
 pub use tree::{SpeculativeTree, TreeNode, TreeVerificationResult};
-pub use types::{DraftProposal, SamplingParams, TokenCandidate, VerificationResult, VerificationStrategy};
+pub use types::{
+    DraftProposal, SamplingParams, TokenCandidate, VerificationResult, VerificationStrategy,
+};
 pub use verifier::SpeculativeVerifier;
-

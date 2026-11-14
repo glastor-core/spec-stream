@@ -87,4 +87,3 @@ impl ModelEngine for SyntheticModel {
         Ok(self.generate_logits_for(token + 1))
     }
 }
-

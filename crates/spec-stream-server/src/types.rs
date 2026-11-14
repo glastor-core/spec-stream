@@ -78,4 +78,3 @@ pub struct HealthResponse {
     pub free_kv_blocks: usize,
     pub allocated_kv_blocks: usize,
 }
-

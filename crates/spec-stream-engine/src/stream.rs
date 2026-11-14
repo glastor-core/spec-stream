@@ -29,10 +29,7 @@ pub enum GenerationEvent {
     /// Updated performance metrics and speedup ratio.
     Metrics(SpeculativeMetrics),
     /// Generation stream finished.
-    Finished {
-        total_tokens: usize,
-        reason: String,
-    },
+    Finished { total_tokens: usize, reason: String },
 }
 
 /// An asynchronous stream producing speculative generation events.
@@ -53,4 +50,3 @@ impl Stream for SpeculativeStream {
         self.receiver.poll_recv(cx)
     }
 }
-

@@ -54,4 +54,3 @@ mod tests {
         assert_eq!(allocator.num_free_blocks(), 10);
     }
 }
-

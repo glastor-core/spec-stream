@@ -40,10 +40,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     while let Some(event) = stream.next().await {
         match event {
-            GenerationEvent::Token {
-                token_id,
-                is_draft,
-            } => {
+            GenerationEvent::Token { token_id, is_draft } => {
                 total_tokens += 1;
                 let tag = if is_draft {
                     "[DRAFT ACCEPTED]"
@@ -60,14 +57,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     "  --> Speculative Burst: {accepted} draft tokens accepted, {total_produced} total committed in 1 target pass\n"
                 );
             }
-            GenerationEvent::AdaptiveKChanged { old_k, new_k, acceptance_rate } => {
+            GenerationEvent::AdaptiveKChanged {
+                old_k,
+                new_k,
+                acceptance_rate,
+            } => {
                 println!(
                     "  [ADAPTIVE-K] Adjusted draft window from K={old_k} to K={new_k} (EMA acceptance: {:.1}%)\n",
                     acceptance_rate * 100.0
                 );
             }
             GenerationEvent::Metrics(metrics) => {
-                println!("  [Telemetry] Current Speedup: {:.2}x | Acceptance Rate: {:.1}%",
+                println!(
+                    "  [Telemetry] Current Speedup: {:.2}x | Acceptance Rate: {:.1}%",
                     metrics.effective_speedup(),
                     metrics.acceptance_rate() * 100.0
                 );
@@ -87,4 +89,3 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
-

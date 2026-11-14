@@ -108,11 +108,18 @@ impl<D: ModelEngine + 'static, T: ModelEngine + 'static> TreeSpeculativePipeline
                         };
 
                         let probs = logits.softmax().unwrap_or_default();
-                        let mut indexed: Vec<(usize, f32)> = probs.into_iter().enumerate().collect();
-                        indexed.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
+                        let mut indexed: Vec<(usize, f32)> =
+                            probs.into_iter().enumerate().collect();
+                        indexed.sort_by(|a, b| {
+                            b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal)
+                        });
 
-                        for &(candidate_id, prob) in indexed.iter().take(self.config.branching_factor) {
-                            if let Ok(child_idx) = tree.add_child(parent_node_idx, candidate_id as TokenId, prob) {
+                        for &(candidate_id, prob) in
+                            indexed.iter().take(self.config.branching_factor)
+                        {
+                            if let Ok(child_idx) =
+                                tree.add_child(parent_node_idx, candidate_id as TokenId, prob)
+                            {
                                 next_level_nodes.push(child_idx);
                             }
                         }
@@ -255,4 +262,3 @@ mod tests {
         assert!(token_count >= 10);
     }
 }
-

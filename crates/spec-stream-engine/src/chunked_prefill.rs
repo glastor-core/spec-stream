@@ -92,7 +92,8 @@ impl ChunkedPrefillScheduler {
     /// Submits a new prompt sequence for chunked prefill.
     pub fn submit_prompt(&mut self, sequence_id: u64, prompt: Vec<TokenId>) {
         self.cache_manager.create_sequence(sequence_id);
-        self.pending_tasks.push_back(PrefillTask::new(sequence_id, prompt));
+        self.pending_tasks
+            .push_back(PrefillTask::new(sequence_id, prompt));
     }
 
     /// Number of sequences currently undergoing chunked prefill.

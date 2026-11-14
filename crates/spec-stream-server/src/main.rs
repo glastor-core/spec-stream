@@ -31,8 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("Metadata KV Count  : {}", meta.metadata_kv_count);
             println!(
                 "Architecture       : {:?}",
-                meta.get_string("general.architecture")
-                    .unwrap_or("unknown")
+                meta.get_string("general.architecture").unwrap_or("unknown")
             );
             println!(
                 "Context Length     : {:?}",

@@ -57,4 +57,3 @@ impl SpeculativeMetrics {
         self.total_tokens_committed as f32 / self.total_cycles as f32
     }
 }
-

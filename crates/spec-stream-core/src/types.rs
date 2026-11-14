@@ -93,9 +93,7 @@ pub enum VerificationStrategy {
     Greedy,
     /// Stochastic rejection sampling adhering to Leviathan et al. (2023).
     /// Guarantees that the resulting token stream strictly follows the target model's probability distribution.
-    Stochastic {
-        temperature: f32,
-    },
+    Stochastic { temperature: f32 },
 }
 
 /// Advanced sampling configuration for token generation and logits processing.
@@ -131,5 +129,3 @@ impl Default for SamplingParams {
         }
     }
 }
-
-

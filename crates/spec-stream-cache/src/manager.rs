@@ -138,4 +138,3 @@ impl PagedKvCacheManager {
         self.allocator.lock().num_prefix_entries()
     }
 }
-

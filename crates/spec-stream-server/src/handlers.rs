@@ -184,7 +184,9 @@ pub async fn chat_completions_handler(
         }
 
         let total_gen = tokens_out.len();
-        state.total_tokens_generated.fetch_add(total_gen as u64, Ordering::Relaxed);
+        state
+            .total_tokens_generated
+            .fetch_add(total_gen as u64, Ordering::Relaxed);
         let content = tokenizer.decode(&tokens_out);
 
         let response = ChatCompletionResponse {
@@ -210,4 +212,3 @@ pub async fn chat_completions_handler(
         Json(response).into_response()
     }
 }
-

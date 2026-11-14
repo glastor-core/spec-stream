@@ -140,9 +140,7 @@ impl<D: ModelEngine + 'static, T: ModelEngine + 'static> SpeculativePipeline<D, 
 
                 // Append proposed draft tokens to KV-cache
                 let proposed_ids = proposal.token_ids();
-                let _ = self
-                    .cache_manager
-                    .append_tokens(sequence_id, &proposed_ids);
+                let _ = self.cache_manager.append_tokens(sequence_id, &proposed_ids);
 
                 // 2. TARGET PHASE: Target model evaluates all proposed positions in ONE parallel forward pass
                 let mut target_inputs = Vec::with_capacity(proposed_ids.len() + 1);
@@ -275,4 +273,3 @@ impl<D: ModelEngine + 'static, T: ModelEngine + 'static> SpeculativePipeline<D, 
         Ok(SpeculativeStream::new(rx))
     }
 }
-

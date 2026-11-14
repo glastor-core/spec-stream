@@ -35,7 +35,10 @@ fn main() {
 
         println!("[1] Speculative Linear Verifier (Greedy, K=4, Vocab=1000):");
         println!("    Latency     : {:.2} ns / verification", ns_per_op);
-        println!("    Throughput  : {:.2} million tokens/sec verified\n", throughput / 1_000_000.0);
+        println!(
+            "    Throughput  : {:.2} million tokens/sec verified\n",
+            throughput / 1_000_000.0
+        );
     }
 
     // 2. Benchmark: Paged KV-Cache O(1) Rollback
@@ -55,8 +58,14 @@ fn main() {
         let ns_per_cycle = elapsed.as_nanos() as f64 / iterations as f64;
 
         println!("[2] Paged KV-Cache Block Allocation & O(1) Rollback (64 tokens -> 32 tokens):");
-        println!("    Latency     : {:.2} ns / (allocate + rollback + free cycle)", ns_per_cycle);
-        println!("    Ops/sec     : {:.2} ops/sec\n", iterations as f64 / elapsed.as_secs_f64());
+        println!(
+            "    Latency     : {:.2} ns / (allocate + rollback + free cycle)",
+            ns_per_cycle
+        );
+        println!(
+            "    Ops/sec     : {:.2} ops/sec\n",
+            iterations as f64 / elapsed.as_secs_f64()
+        );
     }
 
     // 3. Benchmark: Multi-Path Tree Speculative Verification (Medusa-style)
@@ -83,12 +92,17 @@ fn main() {
         let ns_per_tree = elapsed.as_nanos() as f64 / iterations as f64;
 
         println!("[3] Speculative Tree Verification (5-node multi-branch tree):");
-        println!("    Latency     : {:.2} ns / tree verification", ns_per_tree);
-        println!("    Trees/sec   : {:.2} thousand trees verified/sec\n", (iterations as f64 / elapsed.as_secs_f64()) / 1_000.0);
+        println!(
+            "    Latency     : {:.2} ns / tree verification",
+            ns_per_tree
+        );
+        println!(
+            "    Trees/sec   : {:.2} thousand trees verified/sec\n",
+            (iterations as f64 / elapsed.as_secs_f64()) / 1_000.0
+        );
     }
 
     println!("============================================================");
     println!("Benchmark execution finished successfully!");
     println!("============================================================");
 }
-

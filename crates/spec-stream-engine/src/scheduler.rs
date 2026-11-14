@@ -3,9 +3,7 @@ use crate::model::ModelEngine;
 use crate::pipeline::SpeculativeConfig;
 use crate::stream::GenerationEvent;
 use spec_stream_cache::PagedKvCacheManager;
-use spec_stream_core::{
-    DraftProposal, Logits, SpeculativeMetrics, SpeculativeVerifier, TokenId,
-};
+use spec_stream_core::{DraftProposal, Logits, SpeculativeMetrics, SpeculativeVerifier, TokenId};
 use std::collections::VecDeque;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, Mutex as StdMutex};
@@ -142,7 +140,9 @@ impl<D: ModelEngine + 'static, T: ModelEngine + 'static> ContinuousBatchSchedule
 
                 if let Some(req) = queue.pop_front() {
                     self.cache_manager.create_sequence(req.sequence_id);
-                    let _ = self.cache_manager.append_tokens(req.sequence_id, &req.prompt);
+                    let _ = self
+                        .cache_manager
+                        .append_tokens(req.sequence_id, &req.prompt);
 
                     let initial_k = req.config.k_draft_tokens;
                     active.push(ActiveSequence {
@@ -252,8 +252,12 @@ impl<D: ModelEngine + 'static, T: ModelEngine + 'static> ContinuousBatchSchedule
             let seq = &mut active[p.seq_idx];
 
             let valid_tokens_to_keep = seq.current_prefix.len() + verif_result.accepted_count;
-            let _ = self.cache_manager.rollback_sequence(seq.sequence_id, valid_tokens_to_keep);
-            let _ = self.cache_manager.append_tokens(seq.sequence_id, &[verif_result.emitted_target_token]);
+            let _ = self
+                .cache_manager
+                .rollback_sequence(seq.sequence_id, valid_tokens_to_keep);
+            let _ = self
+                .cache_manager
+                .append_tokens(seq.sequence_id, &[verif_result.emitted_target_token]);
 
             seq.metrics.record_cycle(
                 p.proposal.len(),
@@ -311,7 +315,8 @@ impl<D: ModelEngine + 'static, T: ModelEngine + 'static> ContinuousBatchSchedule
             }
         }
 
-        self.tokens_emitted_counter.fetch_add(total_tokens_this_step, Ordering::Relaxed);
+        self.tokens_emitted_counter
+            .fetch_add(total_tokens_this_step, Ordering::Relaxed);
 
         // 5. Retire finished sequences and cleanup their cache
         if !finished_indices.is_empty() {
@@ -354,8 +359,12 @@ mod tests {
             ..Default::default()
         };
 
-        scheduler.submit(QueuedRequest::new(101, vec![1, 2], config1, tx1)).unwrap();
-        scheduler.submit(QueuedRequest::new(102, vec![3, 4], config2, tx2)).unwrap();
+        scheduler
+            .submit(QueuedRequest::new(101, vec![1, 2], config1, tx1))
+            .unwrap();
+        scheduler
+            .submit(QueuedRequest::new(102, vec![3, 4], config2, tx2))
+            .unwrap();
 
         assert_eq!(scheduler.queue_len(), 2);
         assert_eq!(scheduler.active_len(), 0);

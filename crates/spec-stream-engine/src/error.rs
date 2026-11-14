@@ -19,4 +19,3 @@ pub enum EngineError {
     #[error("Invalid configuration: {0}")]
     InvalidConfig(String),
 }
-

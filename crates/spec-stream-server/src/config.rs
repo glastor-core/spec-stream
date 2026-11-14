@@ -73,7 +73,12 @@ impl ServerConfig {
 
             if let Some((key, val)) = line.split_once('=') {
                 let key = key.trim();
-                let val = val.split('#').next().unwrap_or(val).trim().trim_matches('"');
+                let val = val
+                    .split('#')
+                    .next()
+                    .unwrap_or(val)
+                    .trim()
+                    .trim_matches('"');
 
                 match key {
                     "host" => config.host = val.to_string(),
@@ -198,4 +203,3 @@ mod tests {
         assert_eq!(orig, parsed);
     }
 }
-

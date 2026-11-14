@@ -26,4 +26,3 @@ pub enum CoreError {
     #[error("Tree structure error: {0}")]
     TreeError(String),
 }
-

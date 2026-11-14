@@ -209,35 +209,51 @@ fn read_gguf_value_typed<R: Read>(reader: &mut R, val_type: u32) -> Result<GgufV
 
     match val_type {
         0 => {
-            reader.read_exact(&mut buf1).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf1)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Uint8(buf1[0]))
         }
         1 => {
-            reader.read_exact(&mut buf1).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf1)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Int8(buf1[0] as i8))
         }
         2 => {
-            reader.read_exact(&mut buf2).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf2)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Uint16(u16::from_le_bytes(buf2)))
         }
         3 => {
-            reader.read_exact(&mut buf2).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf2)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Int16(i16::from_le_bytes(buf2)))
         }
         4 => {
-            reader.read_exact(&mut buf4).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf4)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Uint32(u32::from_le_bytes(buf4)))
         }
         5 => {
-            reader.read_exact(&mut buf4).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf4)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Int32(i32::from_le_bytes(buf4)))
         }
         6 => {
-            reader.read_exact(&mut buf4).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf4)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Float32(f32::from_le_bytes(buf4)))
         }
         7 => {
-            reader.read_exact(&mut buf1).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf1)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Bool(buf1[0] != 0))
         }
         8 => {
@@ -245,9 +261,13 @@ fn read_gguf_value_typed<R: Read>(reader: &mut R, val_type: u32) -> Result<GgufV
             Ok(GgufValue::String(s))
         }
         9 => {
-            reader.read_exact(&mut buf4).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf4)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             let elem_type = u32::from_le_bytes(buf4);
-            reader.read_exact(&mut buf8).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf8)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             let count = u64::from_le_bytes(buf8) as usize;
 
             let mut arr = Vec::with_capacity(count);
@@ -257,15 +277,21 @@ fn read_gguf_value_typed<R: Read>(reader: &mut R, val_type: u32) -> Result<GgufV
             Ok(GgufValue::Array(arr))
         }
         10 => {
-            reader.read_exact(&mut buf8).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf8)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Uint64(u64::from_le_bytes(buf8)))
         }
         11 => {
-            reader.read_exact(&mut buf8).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf8)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Int64(i64::from_le_bytes(buf8)))
         }
         12 => {
-            reader.read_exact(&mut buf8).map_err(|e| EngineError::Inference(e.to_string()))?;
+            reader
+                .read_exact(&mut buf8)
+                .map_err(|e| EngineError::Inference(e.to_string()))?;
             Ok(GgufValue::Float64(f64::from_le_bytes(buf8)))
         }
         other => Err(EngineError::Inference(format!(
@@ -422,7 +448,8 @@ mod tests {
 
     #[test]
     fn test_safetensors_metadata_parser() {
-        let json_header = r#"{"lm_head.weight":{"dtype":"F32","shape":[16,8],"data_offsets":[0,512]}}"#;
+        let json_header =
+            r#"{"lm_head.weight":{"dtype":"F32","shape":[16,8],"data_offsets":[0,512]}}"#;
         let mut buffer = Vec::new();
         let header_len = json_header.len() as u64;
         buffer.extend_from_slice(&header_len.to_le_bytes());

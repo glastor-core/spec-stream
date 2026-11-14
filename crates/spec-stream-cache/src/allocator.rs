@@ -82,7 +82,10 @@ impl BlockAllocator {
     }
 
     /// Duplicates an existing physical block into a new block with ref_count = 1 (Copy-on-Write).
-    pub fn clone_block(&mut self, src_block_id: PhysicalBlockId) -> Result<PhysicalBlockId, CacheError> {
+    pub fn clone_block(
+        &mut self,
+        src_block_id: PhysicalBlockId,
+    ) -> Result<PhysicalBlockId, CacheError> {
         let src_block = self
             .blocks
             .get(src_block_id)
@@ -198,5 +201,3 @@ impl BlockAllocator {
         gaps as f32 / (self.free_list.len() - 1) as f32
     }
 }
-
-

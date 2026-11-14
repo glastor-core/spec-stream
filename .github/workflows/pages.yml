@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -42,17 +42,33 @@ jobs:
           cp index.html _site/index.html
           # Rust API reference docs
           cp -r target/doc/* _site/docs/
-          # Redirect /docs index if needed
+          # Redirect /docs index to spec_stream crate docs
           echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=spec_stream/index.html"></head></html>' > _site/docs/index.html
+          # Create .nojekyll to prevent Jekyll from ignoring folders starting with underscore
+          touch _site/.nojekyll
 
+      # 1. Branch deployment mode (works immediately when Pages is set to Deploy from branch: gh-pages)
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
+          keep_files: false
+
+      # 2. GitHub Actions native deployment mode (works when Pages Source is set to GitHub Actions)
       - name: Setup GitHub Pages
+        id: pages_setup
         uses: actions/configure-pages@v5
+        continue-on-error: true
 
       - name: Upload Pages Artifact
+        if: steps.pages_setup.outcome == 'success'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
       - name: Deploy to GitHub Pages
+        if: steps.pages_setup.outcome == 'success'
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
