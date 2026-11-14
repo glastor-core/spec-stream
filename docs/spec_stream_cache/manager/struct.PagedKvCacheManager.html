@@ -3,7 +3,7 @@
 </div></details><details class="toggle method-toggle" open><summary><section id="method.append_tokens" class="method"><a class="src rightside" href="../../src/spec_stream_cache/manager.rs.html#41-51">Source</a><h4 class="code-header">pub fn <a href="#method.append_tokens" class="fn">append_tokens</a>(
     &amp;self,
     seq_id: <a class="primitive" href="https://doc.rust-lang.org/1.100.0/std/primitive.u64.html">u64</a>,
-    tokens: &amp;[TokenId],
+    tokens: &amp;[<a class="type" href="../../spec_stream_core/logits/type.TokenId.html" title="type spec_stream_core::logits::TokenId">TokenId</a>],
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.100.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.100.0/std/primitive.unit.html">()</a>, <a class="enum" href="../error/enum.CacheError.html" title="enum spec_stream_cache::error::CacheError">CacheError</a>&gt;</h4></section></summary><div class="docblock"><p>Appends tokens to an active sequence.</p>
 </div></details><details class="toggle method-toggle" open><summary><section id="method.rollback_sequence" class="method"><a class="src rightside" href="../../src/spec_stream_cache/manager.rs.html#54-68">Source</a><h4 class="code-header">pub fn <a href="#method.rollback_sequence" class="fn">rollback_sequence</a>(
     &amp;self,
