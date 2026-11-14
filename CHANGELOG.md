@@ -53,6 +53,11 @@ Este proyecto se adhiere a:
   - Reordenamiento de lista libre (`defragment_free_list`) para maximizar la localidad espacial en líneas de caché de CPU.
 
 #### Orquestación Asíncrona de Inferencia (`spec-stream-engine`)
+- **Soporte de Cuantización GGUF Q8_0 y Q4_0 (`QuantizedLinearModel`)**:
+  - Kernels nativos en Rust puro para de-cuantización y producto punto vectorial directo sin asignación de memoria intermedia (`vec_dot_q8_0`, `vec_dot_q4_0`).
+  - Reducción del uso de VRAM/RAM en cabezales de proyección en hasta un 87% con conversión de punto flotante FP16 IEEE-754.
+- **Planificador de Prefill por Bloques (`ChunkedPrefillScheduler`)**:
+  - Segmentación de prompts masivos (2k–8k+ tokens) en fragmentos configurables (`chunk_size`), intercalando el cómputo de prefill con las ráfagas de decodificación activa para eliminar la latencia por bloqueo.
 - **Drafter Especulativo sin Modelo (`PromptLookupEngine`)**:
   - Decodificación por búsqueda en prompt (Prompt Lookup Decoding) mediante coincidencia de sufijos n-gram en el contexto del prompt.
   - Generación de candidatos en nanosegundos con **0 parámetros neuronales y 0 VRAM adicional**.
@@ -66,6 +71,10 @@ Este proyecto se adhiere a:
 - **Trait Agnóstico `ModelEngine`**: Interfaz genérica para conectar backends de pesos reales (Candle, Burn, ONNX Runtime o FFI nativo) con implementación sintética de referencia (`SyntheticModel`).
 
 #### Servidor HTTP Compatible con OpenAI (`spec-stream-server`)
+- **Suite de Subcomandos CLI**:
+  - `serve`: Inicio estándar del servidor de inferencia HTTP/SSE.
+  - `bench`: Benchmark de rendimiento en memoria con reporte de throughput (tokens/s) y factor de speedup.
+  - `inspect-gguf <archivo.gguf>`: Inspección diagnóstica de metadatos, arquitecturas y tablas de tensores en binarios GGUF.
 - **Configuración Unificada (`spec-stream.toml`)**: Archivo de configuración modular en la raíz del proyecto para ajustar parámetros del servidor, pool de bloques de caché y límites de concurrencia.
 - **Endpoints de Inferencia**:
   - `POST /v1/chat/completions`: Compatible con el formato estándar de OpenAI (tanto JSON síncrono como Server-Sent Events con `stream: true`).

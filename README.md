@@ -141,6 +141,31 @@ Automatically scales the speculative window $K$ up (up to `max_k`) when acceptan
 - `LruEvictionPolicy` dynamically reclaims idle or completed sequence KV-cache blocks when pool saturation threatens out-of-memory errors.
 - Automatic free list defragmentation (`defragment_free_list`) optimizes contiguous physical page allocation and CPU cache line locality.
 
+### 10. GGUF Quantization Support (Q8_0 & Q4_0)
+- Native pure-Rust de-quantization and fused quantized dot-product kernels without C/C++ runtimes.
+- `QuantizedLinearModel` enables running projection and draft heads with **75%–87% less memory**, preserving FP16 precision scales.
+
+### 11. Chunked Prefill Pipeline (`ChunkedPrefillScheduler`)
+- Eliminates head-of-line blocking and latency spikes during long prompt ingestion (2k–8k+ tokens).
+- Segments prompts into configurable chunks (`chunk_size`), interleaving prefill stages with ongoing speculative decode cycles.
+
+### 12. CLI Diagnostic & Benchmarking Suite
+Built-in subcommands inside `spec-stream-server`:
+```bash
+# Start the OpenAI-compatible HTTP inference server (default)
+cargo run -p spec-stream-server -- serve
+
+# Run an in-memory continuous batching throughput benchmark
+cargo run -p spec-stream-server -- bench
+
+# Inspect binary GGUF model headers, architecture, and tensor tables
+cargo run -p spec-stream-server -- inspect-gguf <model.gguf>
+```
+
+### 13. DevSecOps & Supply Chain Security (`deny.toml`)
+- Continuous license checking (SPDX compliance) and automatic ban of duplicate or unmaintained crates.
+- Automated security scanning via RustSec advisories and `.github/workflows/ci.yml`.
+
 ---
 
 ## ⚙️ Configuration (`spec-stream.toml`)

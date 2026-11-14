@@ -4,19 +4,25 @@
 //! Combines draft models, target models, paged KV-cache rollbacks, and verification
 //! into an asynchronous token generation pipeline.
 
+pub mod chunked_prefill;
 pub mod error;
 pub mod model;
 pub mod pipeline;
 pub mod prompt_lookup;
+pub mod quantization;
 pub mod scheduler;
 pub mod stream;
 pub mod tree_pipeline;
 pub mod weights;
 
+pub use chunked_prefill::{ChunkedPrefillConfig, ChunkedPrefillScheduler, PrefillTask};
 pub use error::EngineError;
 pub use model::{ModelEngine, SyntheticModel};
 pub use pipeline::{SpeculativeConfig, SpeculativePipeline};
 pub use prompt_lookup::{PromptLookupConfig, PromptLookupEngine};
+pub use quantization::{
+    dequantize_q4_0, dequantize_q8_0, f16_to_f32, f32_to_f16, QuantType, QuantizedLinearModel,
+};
 pub use scheduler::{ContinuousBatchScheduler, QueuedRequest, SchedulerStats};
 pub use stream::{GenerationEvent, SpeculativeStream};
 pub use tree_pipeline::{TreeSpeculativeConfig, TreeSpeculativePipeline};

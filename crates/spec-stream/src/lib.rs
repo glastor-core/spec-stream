@@ -38,9 +38,10 @@ pub mod prelude {
 
     #[cfg(feature = "engine")]
     pub use spec_stream_engine::{
-        ContinuousBatchScheduler, GenerationEvent, GgufMetadata, LinearProjectionModel,
-        ModelEngine, PromptLookupConfig, PromptLookupEngine, QueuedRequest, SafeTensorsMetadata,
-        SchedulerStats, SpeculativeConfig, SpeculativePipeline, SpeculativeStream, SyntheticModel,
+        ChunkedPrefillConfig, ChunkedPrefillScheduler, ContinuousBatchScheduler, GenerationEvent,
+        GgufMetadata, LinearProjectionModel, ModelEngine, PromptLookupConfig, PromptLookupEngine,
+        QuantType, QuantizedLinearModel, QueuedRequest, SafeTensorsMetadata, SchedulerStats,
+        SpeculativeConfig, SpeculativePipeline, SpeculativeStream, SyntheticModel,
         TreeSpeculativeConfig, TreeSpeculativePipeline,
     };
 }
