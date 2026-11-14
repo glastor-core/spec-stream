@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libssl-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy workspace manifest and lockfile
-COPY Cargo.toml Cargo.lock ./
+# Copy workspace manifest, lockfile, and dashboard
+COPY Cargo.toml Cargo.lock index.html ./
 
 # Copy all workspace crates
 COPY crates ./crates
