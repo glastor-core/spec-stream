@@ -13,7 +13,7 @@ keywords.workspace = true
 categories.workspace = true
 
 [dependencies]
-spec-stream-core = { path = "../spec-stream-core", version = "0.1.0" }
+spec-stream-core = { path = "../spec-stream-core", version = "0.1.1" }
 thiserror = { workspace = true }
 parking_lot = { workspace = true }
 smallvec = { workspace = true }

@@ -25,7 +25,7 @@ pub struct AppState {
 pub async fn health_handler(State(state): State<AppState>) -> Json<HealthResponse> {
     Json(HealthResponse {
         status: "healthy",
-        version: "0.1.0",
+        version: env!("CARGO_PKG_VERSION"),
         free_kv_blocks: state.cache_manager.free_blocks(),
         allocated_kv_blocks: state.cache_manager.allocated_blocks(),
     })
