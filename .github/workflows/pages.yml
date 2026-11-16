@@ -58,7 +58,7 @@ jobs:
       # 2. GitHub Actions native deployment mode (works when Pages Source is set to GitHub Actions)
       - name: Setup GitHub Pages
         id: pages_setup
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
         continue-on-error: true
 
       - name: Upload Pages Artifact
