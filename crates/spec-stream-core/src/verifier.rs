@@ -1,7 +1,7 @@
 use crate::error::CoreError;
 use crate::logits::{Logits, TokenId};
 use crate::types::{DraftProposal, VerificationResult, VerificationStrategy};
-use rand::{rngs::StdRng, Rng, SeedableRng};
+use rand::{rngs::StdRng, Rng, RngExt, SeedableRng};
 use smallvec::SmallVec;
 
 /// Speculative decoding verifier engine.
@@ -42,7 +42,7 @@ impl SpeculativeVerifier {
         proposal: &DraftProposal,
         target_logits: &[Logits],
     ) -> Result<VerificationResult, CoreError> {
-        let mut rng = StdRng::from_entropy();
+        let mut rng = StdRng::from_rng(&mut rand::rng());
         self.verify_with_rng(proposal, target_logits, &mut rng)
     }
 
@@ -141,7 +141,7 @@ impl SpeculativeVerifier {
             let p_target = target_probs[token_idx];
             let q_draft = candidate.draft_prob.max(1e-8);
 
-            let r: f32 = rng.gen();
+            let r: f32 = rng.random();
             let acceptance_ratio = (p_target / q_draft).min(1.0);
 
             if r <= acceptance_ratio {
@@ -205,7 +205,7 @@ impl SpeculativeVerifier {
 
         if sum <= 1e-8 || sum.is_nan() {
             // Fallback: standard sample from target_probs directly
-            let sample_val: f32 = rng.gen();
+            let sample_val: f32 = rng.random();
             let mut accum = 0.0f32;
             for (idx, &p) in target_probs.iter().enumerate() {
                 accum += p;
@@ -221,7 +221,7 @@ impl SpeculativeVerifier {
             *diff *= inv_sum;
         }
 
-        let sample_val: f32 = rng.gen();
+        let sample_val: f32 = rng.random();
         let mut accum = 0.0f32;
         for (idx, &p) in residual.iter().enumerate() {
             accum += p;

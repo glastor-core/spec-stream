@@ -16,7 +16,7 @@ fn test_property_allocator_conservation_law() {
 
     // 5,000 randomized allocation, deallocation and defragmentation operations
     for _ in 0..5_000 {
-        let action: u8 = rng.gen_range(0..3);
+        let action: u8 = rng.random_range(0..3);
         match action {
             0 => {
                 // Allocate block
@@ -35,7 +35,7 @@ fn test_property_allocator_conservation_law() {
             1 => {
                 // Free block
                 if !allocated_blocks.is_empty() {
-                    let idx = rng.gen_range(0..allocated_blocks.len());
+                    let idx = rng.random_range(0..allocated_blocks.len());
                     let block_id = allocated_blocks.swap_remove(idx);
                     allocator
                         .free(block_id)
@@ -78,8 +78,8 @@ fn test_property_cow_and_rollback_invariants() {
     for seq_id in 0..100 {
         manager.create_sequence(seq_id);
 
-        let prompt_tokens: Vec<u32> = (0..rng.gen_range(16..128))
-            .map(|_| rng.gen_range(1..1000))
+        let prompt_tokens: Vec<u32> = (0..rng.random_range(16..128))
+            .map(|_| rng.random_range(1..1000))
             .collect();
         let prompt_len = prompt_tokens.len();
 
@@ -88,15 +88,15 @@ fn test_property_cow_and_rollback_invariants() {
             .expect("prompt allocation must succeed");
 
         // Speculative burst: simulate K drafted tokens
-        let draft_tokens: Vec<u32> = (0..rng.gen_range(1..16))
-            .map(|_| rng.gen_range(1..1000))
+        let draft_tokens: Vec<u32> = (0..rng.random_range(1..16))
+            .map(|_| rng.random_range(1..1000))
             .collect();
         manager
             .append_tokens(seq_id, &draft_tokens)
             .expect("append draft tokens must succeed");
 
         // Simulate random verification: accept between 0 and draft_tokens.len()
-        let accepted = rng.gen_range(0..=draft_tokens.len());
+        let accepted = rng.random_range(0..=draft_tokens.len());
         let target_len = prompt_len + accepted;
 
         manager

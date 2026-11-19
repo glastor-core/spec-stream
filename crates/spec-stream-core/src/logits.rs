@@ -1,6 +1,6 @@
 use crate::error::CoreError;
 use crate::types::SamplingParams;
-use rand::Rng;
+use rand::{Rng, RngExt};
 use std::collections::HashMap;
 
 /// Strongly-typed token ID representation.
@@ -252,7 +252,7 @@ impl Logits {
         scaled.apply_temperature(temperature)?;
         let probs = scaled.softmax()?;
 
-        let sample_val: f32 = rng.gen();
+        let sample_val: f32 = rng.random();
         let mut cumulative = 0.0f32;
 
         for (idx, &p) in probs.iter().enumerate() {
@@ -306,7 +306,7 @@ impl Logits {
         }
 
         let probs = processed.softmax()?;
-        let sample_val: f32 = rng.gen();
+        let sample_val: f32 = rng.random();
         let mut cumulative = 0.0f32;
 
         for (idx, &p) in probs.iter().enumerate() {

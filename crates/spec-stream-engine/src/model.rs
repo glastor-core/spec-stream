@@ -1,5 +1,5 @@
 use crate::error::EngineError;
-use rand::{rngs::StdRng, Rng, SeedableRng};
+use rand::{rngs::StdRng, RngExt, SeedableRng};
 use spec_stream_core::{Logits, TokenId};
 use std::future::Future;
 
@@ -21,13 +21,27 @@ pub trait ModelEngine: Send + Sync {
 
 /// A deterministic synthetic model for benchmarking, testing, and pipeline demonstrations.
 /// Simulates model predictions with a controllable agreement/acceptance probability.
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct SyntheticModel {
     pub name: String,
     pub vocab_size: usize,
     pub agreement_rate: f32,
     pub step_counter: usize,
+    seed: u64,
     rng: StdRng,
+}
+
+impl Clone for SyntheticModel {
+    fn clone(&self) -> Self {
+        Self {
+            name: self.name.clone(),
+            vocab_size: self.vocab_size,
+            agreement_rate: self.agreement_rate,
+            step_counter: self.step_counter,
+            seed: self.seed,
+            rng: StdRng::seed_from_u64(self.seed.wrapping_add(self.step_counter as u64)),
+        }
+    }
 }
 
 impl SyntheticModel {
@@ -37,18 +51,19 @@ impl SyntheticModel {
             vocab_size,
             agreement_rate,
             step_counter: 0,
+            seed,
             rng: StdRng::seed_from_u64(seed),
         }
     }
 
     fn generate_logits_for(&mut self, expected_token: TokenId) -> Logits {
         let mut vals = vec![0.0f32; self.vocab_size];
-        let will_agree = self.rng.gen::<f32>() <= self.agreement_rate;
+        let will_agree = self.rng.random::<f32>() <= self.agreement_rate;
 
         let target = if will_agree {
             expected_token as usize % self.vocab_size
         } else {
-            self.rng.gen_range(0..self.vocab_size)
+            self.rng.random_range(0..self.vocab_size)
         };
 
         // Give the target token a prominent peak
@@ -57,7 +72,7 @@ impl SyntheticModel {
         // Add minor Gaussian-like noise to others
         for (i, v) in vals.iter_mut().enumerate() {
             if i != target {
-                *v = self.rng.gen_range(0.0..1.5);
+                *v = self.rng.random_range(0.0..1.5);
             }
         }
 
