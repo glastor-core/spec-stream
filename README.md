@@ -23,6 +23,10 @@
 
 ---
 
+<p align="center">
+  <img src="./assets/terminal-demo.svg" alt="GLASTOR® spec-stream — Live Benchmark Terminal Demo" width="100%" />
+</p>
+
 ## ⚡ Why `spec-stream`?
 
 Standard autoregressive LLM decoding is **memory-bandwidth bound**: generating 1 token requires streaming all gigabytes of model weights from RAM/VRAM into compute cores.
