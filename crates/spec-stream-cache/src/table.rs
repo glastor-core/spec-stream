@@ -34,7 +34,7 @@ impl BlockTable {
         allocator: &mut BlockAllocator,
     ) -> Result<(), CacheError> {
         // Check if we need to allocate a new physical block
-        if self.seq_len % self.block_size == 0 {
+        if self.seq_len.is_multiple_of(self.block_size) {
             let block_id = allocator.allocate()?;
             self.physical_blocks.push(block_id);
         }
@@ -75,7 +75,7 @@ impl BlockTable {
         allocator: &mut BlockAllocator,
     ) -> Result<(), CacheError> {
         // 1. Fill any partial trailing block first
-        while !tokens.is_empty() && self.seq_len % self.block_size != 0 {
+        while !tokens.is_empty() && !self.seq_len.is_multiple_of(self.block_size) {
             self.append_token(tokens[0], allocator)?;
             tokens = &tokens[1..];
         }
@@ -152,7 +152,7 @@ impl BlockTable {
         // Adjust the last block's token count if necessary
         if let Some(&last_block_id) = self.physical_blocks.last() {
             let tokens_in_last =
-                if valid_token_count % self.block_size == 0 && valid_token_count > 0 {
+                if valid_token_count.is_multiple_of(self.block_size) && valid_token_count > 0 {
                     self.block_size
                 } else {
                     valid_token_count % self.block_size

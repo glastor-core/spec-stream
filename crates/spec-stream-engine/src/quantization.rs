@@ -292,7 +292,7 @@ impl QuantizedLinearModel {
         weights: &[f32],
         embeddings: Vec<f32>,
     ) -> Result<Self, EngineError> {
-        if hidden_dim % QK_K != 0 {
+        if !hidden_dim.is_multiple_of(QK_K) {
             return Err(EngineError::InvalidConfig(format!(
                 "Hidden dimension {} must be a multiple of {}",
                 hidden_dim, QK_K
