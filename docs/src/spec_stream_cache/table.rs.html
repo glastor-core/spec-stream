@@ -34,7 +34,7 @@
 <a href=#34 id=34 data-nosnippet>34</a>        allocator: <span class="kw-2">&amp;mut </span>BlockAllocator,
 <a href=#35 id=35 data-nosnippet>35</a>    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), CacheError&gt; {
 <a href=#36 id=36 data-nosnippet>36</a>        <span class="comment">// Check if we need to allocate a new physical block
-<a href=#37 id=37 data-nosnippet>37</a>        </span><span class="kw">if </span><span class="self">self</span>.seq_len % <span class="self">self</span>.block_size == <span class="number">0 </span>{
+<a href=#37 id=37 data-nosnippet>37</a>        </span><span class="kw">if </span><span class="self">self</span>.seq_len.is_multiple_of(<span class="self">self</span>.block_size) {
 <a href=#38 id=38 data-nosnippet>38</a>            <span class="kw">let </span>block_id = allocator.allocate()<span class="question-mark">?</span>;
 <a href=#39 id=39 data-nosnippet>39</a>            <span class="self">self</span>.physical_blocks.push(block_id);
 <a href=#40 id=40 data-nosnippet>40</a>        }
@@ -75,7 +75,7 @@
 <a href=#75 id=75 data-nosnippet>75</a>        allocator: <span class="kw-2">&amp;mut </span>BlockAllocator,
 <a href=#76 id=76 data-nosnippet>76</a>    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), CacheError&gt; {
 <a href=#77 id=77 data-nosnippet>77</a>        <span class="comment">// 1. Fill any partial trailing block first
-<a href=#78 id=78 data-nosnippet>78</a>        </span><span class="kw">while </span>!tokens.is_empty() &amp;&amp; <span class="self">self</span>.seq_len % <span class="self">self</span>.block_size != <span class="number">0 </span>{
+<a href=#78 id=78 data-nosnippet>78</a>        </span><span class="kw">while </span>!tokens.is_empty() &amp;&amp; !<span class="self">self</span>.seq_len.is_multiple_of(<span class="self">self</span>.block_size) {
 <a href=#79 id=79 data-nosnippet>79</a>            <span class="self">self</span>.append_token(tokens[<span class="number">0</span>], allocator)<span class="question-mark">?</span>;
 <a href=#80 id=80 data-nosnippet>80</a>            tokens = <span class="kw-2">&amp;</span>tokens[<span class="number">1</span>..];
 <a href=#81 id=81 data-nosnippet>81</a>        }
@@ -152,7 +152,7 @@
 <a href=#152 id=152 data-nosnippet>152</a>        <span class="comment">// Adjust the last block's token count if necessary
 <a href=#153 id=153 data-nosnippet>153</a>        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>last_block_id) = <span class="self">self</span>.physical_blocks.last() {
 <a href=#154 id=154 data-nosnippet>154</a>            <span class="kw">let </span>tokens_in_last =
-<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw">if </span>valid_token_count % <span class="self">self</span>.block_size == <span class="number">0 </span>&amp;&amp; valid_token_count &gt; <span class="number">0 </span>{
+<a href=#155 id=155 data-nosnippet>155</a>                <span class="kw">if </span>valid_token_count.is_multiple_of(<span class="self">self</span>.block_size) &amp;&amp; valid_token_count &gt; <span class="number">0 </span>{
 <a href=#156 id=156 data-nosnippet>156</a>                    <span class="self">self</span>.block_size
 <a href=#157 id=157 data-nosnippet>157</a>                } <span class="kw">else </span>{
 <a href=#158 id=158 data-nosnippet>158</a>                    valid_token_count % <span class="self">self</span>.block_size

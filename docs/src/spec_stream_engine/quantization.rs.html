@@ -292,7 +292,7 @@
 <a href=#292 id=292 data-nosnippet>292</a>        weights: <span class="kw-2">&amp;</span>[f32],
 <a href=#293 id=293 data-nosnippet>293</a>        embeddings: Vec&lt;f32&gt;,
 <a href=#294 id=294 data-nosnippet>294</a>    ) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, EngineError&gt; {
-<a href=#295 id=295 data-nosnippet>295</a>        <span class="kw">if </span>hidden_dim % QK_K != <span class="number">0 </span>{
+<a href=#295 id=295 data-nosnippet>295</a>        <span class="kw">if </span>!hidden_dim.is_multiple_of(QK_K) {
 <a href=#296 id=296 data-nosnippet>296</a>            <span class="kw">return </span><span class="prelude-val">Err</span>(EngineError::InvalidConfig(<span class="macro">format!</span>(
 <a href=#297 id=297 data-nosnippet>297</a>                <span class="string">"Hidden dimension {} must be a multiple of {}"</span>,
 <a href=#298 id=298 data-nosnippet>298</a>                hidden_dim, QK_K
